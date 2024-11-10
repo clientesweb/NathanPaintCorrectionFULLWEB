@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Preloader
+    const preloader = document.querySelector('.preloader');
+    if (preloader) {
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 3000);
+    }
+
     // Mobile Menu Toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const closeMobileMenu = document.getElementById('closeMobileMenu');
@@ -221,12 +229,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Preloader
-    const preloader = document.querySelector('.preloader');
-    setTimeout(() => {
-        preloader.style.display = 'none';
-    }, 3000);
+    console.log('Script cargado y ejecutándose');
 });
-
-// Log to confirm the script is running
-console.log('Updated script is running');
