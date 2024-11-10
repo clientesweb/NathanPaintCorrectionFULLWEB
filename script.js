@@ -245,13 +245,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (areImagesLoaded()) {
             initializeComponents();
         } else {
-            setTimeout(checkAndInitialize, 100);
+            requestAnimationFrame(checkAndInitialize);
         }
     }
 
-    if (document.readyState === 'complete') {
-        checkAndInitialize();
-    } else {
-        window.addEventListener('load', checkAndInitialize);
-    }
+    // Start checking for images and initializing components
+    checkAndInitialize();
 });
