@@ -232,13 +232,36 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Booking Modal
+    // Booking Modal y Notificación
     const bookNowBtn = document.getElementById('bookNowBtn');
     const bookingModal = document.getElementById('bookingModal');
     const closeBookingModal = bookingModal.querySelector('.close');
+    const bookNowNotification = document.getElementById('bookNowNotification');
+
+    let notificationTimeout;
+
+    function showNotification() {
+        bookNowNotification.classList.remove('opacity-0');
+        bookNowNotification.classList.add('opacity-100');
+        
+        clearTimeout(notificationTimeout);
+        notificationTimeout = setTimeout(() => {
+            bookNowNotification.classList.remove('opacity-100');
+            bookNowNotification.classList.add('opacity-0');
+        }, 3000);
+    }
+
+    function hideNotification() {
+        bookNowNotification.classList.remove('opacity-100');
+        bookNowNotification.classList.add('opacity-0');
+    }
+
+    bookNowBtn.addEventListener('mouseenter', showNotification);
+    bookNowBtn.addEventListener('mouseleave', hideNotification);
 
     bookNowBtn.addEventListener('click', () => {
         bookingModal.style.display = 'block';
+        hideNotification();
     });
 
     closeBookingModal.addEventListener('click', () => {
