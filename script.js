@@ -56,12 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const serviceModal = document.createElement('div');
     serviceModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden';
     serviceModal.innerHTML = `
-        <div class="bg-white p-8 rounded-lg max-w-md w-full">
+        <div class="bg-white p-8 rounded-lg max-w-md w-full relative">
+            <button id="closeModal" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-2xl" aria-label="Close modal">&times;</button>
             <h2 id="modalTitle" class="text-2xl font-bold mb-4"></h2>
             <p id="modalDescription" class="mb-4"></p>
             <ul id="modalFeatures" class="list-disc pl-5 mb-4"></ul>
             <p id="modalPrice" class="font-bold mb-4"></p>
-            <button id="closeModal" class="bg-primary-color text-white px-4 py-2 rounded hover:bg-opacity-90">Close</button>
         </div>
     `;
     document.body.appendChild(serviceModal);
@@ -165,7 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const galleryModal = document.createElement('div');
     galleryModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden';
     galleryModal.innerHTML = `
-        <div class="bg-white p-8 rounded-lg max-w-4xl w-full">
+        <div class="bg-white p-8 rounded-lg max-w-4xl w-full relative">
+            <button id="closeGalleryModal" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-2xl" aria-label="Close gallery modal">&times;</button>
             <h2 id="galleryModalTitle" class="text-2xl font-bold mb-4"></h2>
             <div id="galleryModalImages" class="swiper gallery-swiper mb-4">
                 <div class="swiper-wrapper"></div>
@@ -174,7 +175,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="swiper-button-next"></div>
             </div>
             <p id="galleryModalDescription" class="mb-4"></p>
-            <button id="closeGalleryModal" class="bg-primary-color text-white px-4 py-2 rounded hover:bg-opacity-90">Close</button>
         </div>
     `;
     document.body.appendChild(galleryModal);
