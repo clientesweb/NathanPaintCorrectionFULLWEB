@@ -1,3 +1,4 @@
+// script.js
 document.addEventListener('DOMContentLoaded', function() {
     // Preloader
     const preloader = document.querySelector('.preloader');
@@ -229,5 +230,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    console.log('Script cargado y ejecutándose');
+    console.log('Script loaded and running');
 });
