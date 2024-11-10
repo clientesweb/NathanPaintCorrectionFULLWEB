@@ -164,6 +164,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+    });
+
+    // Initialize Swiper for About section
+    new Swiper('.about-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+            },
+            1024: {
+                slidesPerView: 3,
+            },
+        },
+    });
+
     // Booking Modal
     const bookNowBtn = document.getElementById('bookNowBtn');
     const bookingModal = document.getElementById('bookingModal');
@@ -199,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Preloader
     const preloader = document.querySelector('.preloader');
+    const preloaderLogo = document.querySelector('.preloader-logo');
 
     function hidePreloader() {
         preloader.style.opacity = '0';
@@ -208,47 +233,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     }
 
-    function areImagesLoaded() {
+    function areAllImagesLoaded() {
         return Array.from(document.images).every((img) => img.complete && img.naturalHeight !== 0);
     }
 
-    function initializeComponents() {
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true,
-        });
-
-        // Initialize Swiper for About section
-        new Swiper('.about-swiper', {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2,
-                },
-                1024: {
-                    slidesPerView: 3,
-                },
-            },
-        });
-
-        // Hide preloader after initialization
-        hidePreloader();
-    }
-
-    function checkAndInitialize() {
-        if (areImagesLoaded()) {
-            initializeComponents();
+    function checkImagesAndHidePreloader() {
+        if (areAllImagesLoaded()) {
+            hidePreloader();
         } else {
-            requestAnimationFrame(checkAndInitialize);
+            requestAnimationFrame(checkImagesAndHidePreloader);
         }
     }
 
-    // Start checking for images and initializing components
-    checkAndInitialize();
+    // Asegurarse de que el logo del preloader esté cargado antes de iniciar la verificación
+    if (preloaderLogo.complete) {
+        checkImagesAndHidePreloader();
+    } else {
+        preloaderLogo.onload = checkImagesAndHidePreloader;
+    }
 });
