@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Preloader
     const preloader = document.querySelector('.preloader');
-    const preloaderLogo = document.querySelector('.preloader-logo');
 
+    // Función para ocultar el preloader
     function hidePreloader() {
         preloader.style.opacity = '0';
         preloader.style.transition = 'opacity 0.5s ease';
@@ -11,23 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     }
 
-    function areAllImagesLoaded() {
-        return Array.from(document.images).every((img) => img.complete && img.naturalHeight !== 0);
-    }
-
-    function checkImagesAndHidePreloader() {
-        if (areAllImagesLoaded()) {
-            hidePreloader();
-        } else {
-            requestAnimationFrame(checkImagesAndHidePreloader);
-        }
-    }
-
-    if (preloaderLogo.complete) {
-        checkImagesAndHidePreloader();
-    } else {
-        preloaderLogo.onload = checkImagesAndHidePreloader;
-    }
+    // Ocultar el preloader después de 3 segundos
+    setTimeout(hidePreloader, 3000);
 
     // Mobile Menu Toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
