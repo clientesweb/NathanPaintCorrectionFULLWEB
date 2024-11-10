@@ -164,30 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Initialize AOS
-    AOS.init({
-        duration: 1000,
-        once: true,
-    });
-
-    // Initialize Swiper for About section
-    new Swiper('.about-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        autoplay: {
-            delay: 5000,
-        },
-        breakpoints: {
-            640: {
-                slidesPerView: 2,
-            },
-            1024: {
-                slidesPerView: 3,
-            },
-        },
-    });
-
     // Booking Modal
     const bookNowBtn = document.getElementById('bookNowBtn');
     const bookingModal = document.getElementById('bookingModal');
@@ -222,8 +198,62 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Preloader
-    window.addEventListener('load', function() {
+    function hidePreloader() {
         const preloader = document.querySelector('.preloader');
-        preloader.style.display = 'none';
-    });
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 500); // Fade out for 500ms before hiding
+    }
+
+    function areImagesLoaded() {
+        return Array.from(document.images).every((img) => img.complete);
+    }
+
+    function initializeComponents() {
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Initialize Swiper for About section
+        new Swiper('.about-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+
+        // Hide preloader after initialization
+        hidePreloader();
+    }
+
+    // Check if all images and resources are loaded
+    if (document.readyState === 'complete' && areImagesLoaded()) {
+        initializeComponents();
+    } else {
+        window.addEventListener('load', function() {
+            if (areImagesLoaded()) {
+                initializeComponents();
+            } else {
+                const imageLoadCheck = setInterval(() => {
+                    if (areImagesLoaded()) {
+                        clearInterval(imageLoadCheck);
+                        initializeComponents();
+                    }
+                }, 100);
+            }
+        });
+    }
 });
