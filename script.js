@@ -198,16 +198,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Preloader
+    const preloader = document.querySelector('.preloader');
+
     function hidePreloader() {
-        const preloader = document.querySelector('.preloader');
         preloader.style.opacity = '0';
+        preloader.style.transition = 'opacity 0.5s ease';
         setTimeout(() => {
             preloader.style.display = 'none';
-        }, 500); // Fade out for 500ms before hiding
+        }, 500);
     }
 
     function areImagesLoaded() {
-        return Array.from(document.images).every((img) => img.complete);
+        return Array.from(document.images).every((img) => img.complete && img.naturalHeight !== 0);
     }
 
     function initializeComponents() {
@@ -238,6 +240,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hide preloader after initialization
         hidePreloader();
     }
+
+    function checkAndInitialize() {
+        if (areImagesLoaded()) {
+            initializeComponents();
+        } else {
+            setTimeout(checkAndInitialize, 100);
+        }
+    }
+
+    if (document.readyState === 'complete') {
+        checkAndInitialize();
+    } else {
+        window.addEventListener('load', checkAndInitialize);
+    }
+});
 
     // Check if all images and resources are loaded
     if (document.readyState === 'complete' && areImagesLoaded()) {
