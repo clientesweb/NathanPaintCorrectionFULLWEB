@@ -34,8 +34,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setInterval(rotateBanner, 5000);
 
+    // About Section Swiper
+    new Swiper('.about-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+            },
+            1024: {
+                slidesPerView: 3,
+            },
+        },
+    });
+
     // Service Modal
-    const serviceModal = document.getElementById('serviceModal');
+    const serviceModal = document.createElement('div');
+    serviceModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden';
+    serviceModal.innerHTML = `
+        <div class="bg-white p-8 rounded-lg max-w-md w-full">
+            <h2 id="modalTitle" class="text-2xl font-bold mb-4"></h2>
+            <p id="modalDescription" class="mb-4"></p>
+            <ul id="modalFeatures" class="list-disc pl-5 mb-4"></ul>
+            <p id="modalPrice" class="font-bold mb-4"></p>
+            <button id="closeModal" class="bg-primary-color text-white px-4 py-2 rounded hover:bg-opacity-90">Close</button>
+        </div>
+    `;
+    document.body.appendChild(serviceModal);
+
     const modalTitle = document.getElementById('modalTitle');
     const modalDescription = document.getElementById('modalDescription');
     const modalFeatures = document.getElementById('modalFeatures');
@@ -110,48 +140,6 @@ document.addEventListener('DOMContentLoaded', function() {
         serviceModal.classList.add('hidden');
     });
 
-    // Gallery Modal
-    const galleryModal = document.getElementById('galleryModal');
-    const galleryModalImages = document.getElementById('galleryModalImages');
-    const galleryModalTitle = document.getElementById('galleryModalTitle');
-    const galleryModalDescription = document.getElementById('galleryModalDescription');
-    const closeGalleryModal = document.getElementById('closeGalleryModal');
-    const viewWorkButtons = document.querySelectorAll('.view-work');
-
-    viewWorkButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const galleryItem = button.closest('.gallery-item');
-            const images = JSON.parse(galleryItem.getAttribute('data-images'));
-            const description = galleryItem.getAttribute('data-description');
-            const title = galleryItem.querySelector('h3').textContent;
-
-            galleryModalImages.innerHTML = images.map(image => `
-                <div class="swiper-slide">
-                    <img src="${image}" alt="${title}" class="w-full h-auto">
-                </div>
-            `).join('');
-
-            galleryModalTitle.textContent = title;
-            galleryModalDescription.textContent = description;
-            galleryModal.classList.remove('hidden');
-
-            // Initialize Swiper for gallery modal
-            new Swiper('.gallery-swiper', {
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                },
-            });
-        });
-    });
-
-    closeGalleryModal.addEventListener('click', () => {
-        galleryModal.classList.add('hidden');
-    });
-
     // Gallery Filter
     const filterButtons = document.querySelectorAll('.filter-btn');
     const galleryItems = document.querySelectorAll('.gallery-item');
@@ -173,28 +161,75 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Initialize AOS
-    AOS.init({
-        duration: 1000,
-        once: true,
+    // Gallery Modal
+    const galleryModal = document.createElement('div');
+    galleryModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden';
+    galleryModal.innerHTML = `
+        <div class="bg-white p-8 rounded-lg max-w-4xl w-full">
+            <h2 id="galleryModalTitle" class="text-2xl font-bold mb-4"></h2>
+            <div id="galleryModalImages" class="swiper gallery-swiper mb-4">
+                <div class="swiper-wrapper"></div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+            <p id="galleryModalDescription" class="mb-4"></p>
+            <button id="closeGalleryModal" class="bg-primary-color text-white px-4 py-2 rounded hover:bg-opacity-90">Close</button>
+        </div>
+    `;
+    document.body.appendChild(galleryModal);
+
+    const galleryModalTitle = document.getElementById('galleryModalTitle');
+    const galleryModalImages = document.getElementById('galleryModalImages');
+    const galleryModalDescription = document.getElementById('galleryModalDescription');
+    const closeGalleryModal = document.getElementById('closeGalleryModal');
+    const viewWorkButtons = document.querySelectorAll('.view-work');
+
+    viewWorkButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const galleryItem = button.closest('.gallery-item');
+            const images = JSON.parse(galleryItem.getAttribute('data-images'));
+            const description = galleryItem.getAttribute('data-description');
+            const title = galleryItem.querySelector('h3').textContent;
+
+            galleryModalImages.querySelector('.swiper-wrapper').innerHTML = images.map(image => `
+                <div class="swiper-slide">
+                    <img src="${image}" alt="${title}" class="w-full h-auto">
+                </div>
+            `).join('');
+
+            galleryModalTitle.textContent = title;
+            galleryModalDescription.textContent = description;
+            galleryModal.classList.remove('hidden');
+
+            new Swiper('.gallery-swiper', {
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            });
+        });
     });
 
-    // Initialize Swiper for About section
-    new Swiper('.about-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        autoplay: {
-            delay: 5000,
-        },
-        breakpoints: {
-            640: {
-                slidesPerView: 2,
-            },
-            1024: {
-                slidesPerView: 3,
-            },
-        },
+    closeGalleryModal.addEventListener('click', () => {
+        galleryModal.classList.add('hidden');
+    });
+
+    // FAQ Accordion
+    const faqQuestions = document.querySelectorAll('.faq-question');
+
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const icon = question.querySelector('i');
+
+            answer.classList.toggle('active');
+            icon.classList.toggle('fa-chevron-down');
+            icon.classList.toggle('fa-chevron-up');
+        });
     });
 
     // Booking Modal
@@ -216,18 +251,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // FAQ Accordion
-    const faqQuestions = document.querySelectorAll('.faq-question');
-
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', () => {
-            const answer = question.nextElementSibling;
-            const icon = question.querySelector('i');
-
-            answer.classList.toggle('active');
-            icon.classList.toggle('fa-chevron-down');
-            icon.classList.toggle('fa-chevron-up');
-        });
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
     });
 
     console.log('Script loaded and running');
