@@ -255,22 +255,3 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('load', checkAndInitialize);
     }
 });
-
-    // Check if all images and resources are loaded
-    if (document.readyState === 'complete' && areImagesLoaded()) {
-        initializeComponents();
-    } else {
-        window.addEventListener('load', function() {
-            if (areImagesLoaded()) {
-                initializeComponents();
-            } else {
-                const imageLoadCheck = setInterval(() => {
-                    if (areImagesLoaded()) {
-                        clearInterval(imageLoadCheck);
-                        initializeComponents();
-                    }
-                }, 100);
-            }
-        });
-    }
-});
