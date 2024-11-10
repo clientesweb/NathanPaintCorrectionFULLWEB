@@ -1,18 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Preloader
-    const preloader = document.querySelector('.preloader');
-
-    function hidePreloader() {
-        preloader.style.opacity = '0';
-        preloader.style.transition = 'opacity 0.5s ease';
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 500);
-    }
-
-    // Ocultar el preloader después de 3 segundos
-    setTimeout(hidePreloader, 3000);
-
     // Mobile Menu Toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const closeMobileMenu = document.getElementById('closeMobileMenu');
@@ -234,4 +220,13 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.classList.toggle('fa-chevron-up');
         });
     });
+
+    // Preloader
+    const preloader = document.querySelector('.preloader');
+    setTimeout(() => {
+        preloader.style.display = 'none';
+    }, 3000);
 });
+
+// Log to confirm the script is running
+console.log('Updated script is running');
