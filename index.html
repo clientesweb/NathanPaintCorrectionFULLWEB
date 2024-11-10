@@ -172,18 +172,19 @@
 
         /* Estilos para el preloader */
         .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
 
         .preloader-logo {
             width: 150px;
@@ -325,10 +326,10 @@
 </head>
 <body class="font-sans">
     <!-- Preloader -->
-    <div class="preloader">
-        <img src="img/logo.png" alt="Nathan Paint Correction Logo" class="preloader-logo">
-        <div class="preloader-text">Powered by Duality Domain</div>
-    </div>
+<div class="preloader">
+    <img src="img/logo.png" alt="Nathan Paint Correction Logo" class="preloader-logo">
+    <div class="preloader-text">Powered by Duality Domain</div>
+</div>
 
     <!-- Top Banner with CTAs -->
     <div id="top-banner" class="py-2 text-white relative">
