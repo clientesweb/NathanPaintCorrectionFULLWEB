@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Preloader
     const preloader = document.querySelector('.preloader');
 
-    // Función para ocultar el preloader
     function hidePreloader() {
         preloader.style.opacity = '0';
         preloader.style.transition = 'opacity 0.5s ease';
