@@ -1,30 +1,36 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Remover preloader
     document.body.classList.remove('preloader-active');
+    
     // Mobile Menu Toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const closeMobileMenu = document.getElementById('closeMobileMenu');
     const mobileMenu = document.getElementById('mobileMenu');
 
-    mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
+    if (mobileMenuBtn && closeMobileMenu && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
-    closeMobileMenu.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-    });
+        closeMobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+    }
 
     // Top Banner Rotation
     const banner = document.getElementById('top-banner');
-    const bannerContent = banner.querySelector('.banner-content');
-    const bannerItems = banner.querySelectorAll('.banner-item');
-    let currentBanner = 0;
+    if (banner) {
+        const bannerContent = banner.querySelector('.banner-content');
+        const bannerItems = banner.querySelectorAll('.banner-item');
+        let currentBanner = 0;
 
-    function rotateBanner() {
-        currentBanner = (currentBanner + 1) % bannerItems.length;
-        bannerContent.style.transform = `translateX(-${currentBanner * 100}%)`;
+        function rotateBanner() {
+            currentBanner = (currentBanner + 1) % bannerItems.length;
+            bannerContent.style.transform = `translateX(-${currentBanner * 100}%)`;
+        }
+
+        setInterval(rotateBanner, 5000);
     }
-
-    setInterval(rotateBanner, 5000);
 
     // Service Modal
     const serviceModal = document.getElementById('serviceModal');
@@ -86,21 +92,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    viewServiceButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const service = button.getAttribute('data-service');
-            const details = serviceDetails[service];
-            modalTitle.textContent = details.title;
-            modalDescription.textContent = details.description;
-            modalFeatures.innerHTML = details.features.map(feature => `<li>${feature}</li>`).join('');
-            modalPrice.textContent = details.price;
-            serviceModal.classList.remove('hidden');
+    if (viewServiceButtons && serviceModal) {
+        viewServiceButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const service = button.getAttribute('data-service');
+                const details = serviceDetails[service];
+                if (details) {
+                    modalTitle.textContent = details.title;
+                    modalDescription.textContent = details.description;
+                    modalFeatures.innerHTML = details.features.map(feature => `<li>${feature}</li>`).join('');
+                    modalPrice.textContent = details.price;
+                    serviceModal.classList.remove('hidden');
+                }
+            });
         });
-    });
 
-    closeModal.addEventListener('click', () => {
-        serviceModal.classList.add('hidden');
-    });
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                serviceModal.classList.add('hidden');
+            });
+        }
+    }
 
     // Gallery Modal
     const galleryModal = document.getElementById('galleryModal');
@@ -110,39 +122,41 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeGalleryModal = document.getElementById('closeGalleryModal');
     const viewWorkButtons = document.querySelectorAll('.view-work');
 
-    viewWorkButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const galleryItem = button.closest('.gallery-item');
-            const images = JSON.parse(galleryItem.getAttribute('data-images'));
-            const description = galleryItem.getAttribute('data-description');
-            const title = galleryItem.querySelector('h3').textContent;
+    if (viewWorkButtons && galleryModal) {
+        viewWorkButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const galleryItem = button.closest('.gallery-item');
+                const images = JSON.parse(galleryItem.getAttribute('data-images'));
+                const description = galleryItem.getAttribute('data-description');
+                const title = galleryItem.querySelector('h3').textContent;
 
-            galleryModalImages.innerHTML = images.map(image => `
-                <div class="swiper-slide">
-                    <img src="${image}" alt="${title}" class="w-full h-auto">
-                </div>
-            `).join('');
+                galleryModalImages.innerHTML = images.map(image => `
+                    <div class="swiper-slide">
+                        <img src="${image}" alt="${title}" class="w-full h-auto">
+                    </div>
+                `).join('');
 
-            galleryModalTitle.textContent = title;
-            galleryModalDescription.textContent = description;
-            galleryModal.classList.remove('hidden');
+                galleryModalTitle.textContent = title;
+                galleryModalDescription.textContent = description;
+                galleryModal.classList.remove('hidden');
 
-            // Initialize Swiper for gallery modal
-            new Swiper('.gallery-swiper', {
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                },
+                // Initialize Swiper for gallery modal
+                new Swiper('.gallery-swiper', {
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                    },
+                });
             });
         });
-    });
 
-    closeGalleryModal.addEventListener('click', () => {
-        galleryModal.classList.add('hidden');
-    });
+        closeGalleryModal.addEventListener('click', () => {
+            galleryModal.classList.add('hidden');
+        });
+    }
 
     // Gallery Filter
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -151,7 +165,6 @@ document.addEventListener('DOMContentLoaded', function() {
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
             const filter = button.getAttribute('data-filter');
-            
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
@@ -166,61 +179,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initialize AOS
-    AOS.init({
-        duration: 1000,
-        once: true,
-    });
-
-    // Initialize Swiper for About section
-    new Swiper('.about-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        autoplay: {
-            delay: 5000,
-        },
-        breakpoints: {
-            640: {
-                slidesPerView: 2,
-            },
-            1024: {
-                slidesPerView: 3,
-            },
-        },
-    });
-
-    // Booking Modal
-    const bookNowBtn = document.getElementById('bookNowBtn');
-    const bookingModal = document.getElementById('bookingModal');
-    const closeBookingModal = bookingModal.querySelector('.close');
-
-    bookNowBtn.addEventListener('click', () => {
-        bookingModal.style.display = 'block';
-    });
-
-    closeBookingModal.addEventListener('click', () => {
-        bookingModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target == bookingModal) {
-            bookingModal.style.display = 'none';
-        }
-    });
-
-    // FAQ Accordion
-    const faqQuestions = document.querySelectorAll('.faq-question');
-
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', () => {
-            const answer = question.nextElementSibling;
-            const icon = question.querySelector('i');
-
-            answer.classList.toggle('active');
-            icon.classList.toggle('fa-chevron-down');
-            icon.classList.toggle('fa-chevron-up');
-        });
-    });
+    if (typeof AOS !== 'undefined') {
+        AOS.init({ duration: 1000, once: true });
+    }
 
     // Preloader
     window.addEventListener('load', function() {
