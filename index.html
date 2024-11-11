@@ -100,17 +100,91 @@
             display: none;
         }
         
-        .services-scroll {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding-bottom: 1rem;
-        }
-        
-        .services-scroll::-webkit-scrollbar {
-            display: none;
-        }
+       
+
+/* Tarjetas de Servicio */
+.service-card {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+    z-index: 2; /* Asegura que el contenido de la tarjeta esté por encima de la capa de opacidad */
+}
+
+/* Capa de opacidad */
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4); /* Ajusta la opacidad */
+    border-radius: 12px; /* Mantener las esquinas redondeadas */
+    z-index: 1; /* Coloca la capa debajo del contenido */
+}
+
+/* Efecto Hover para las Tarjetas */
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Botones con Gradiente */
+.gradient-bg {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Botones de las Tarjetas */
+.service-card button {
+    position: relative; /* Asegura que el botón esté por encima de la capa de opacidad */
+    z-index: 3; /* Para que el botón quede encima de la capa de opacidad */
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Efecto Hover para Botones */
+.service-card button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Título y Descripción */
+.service-card h2, .service-card h3, .service-card p {
+    position: relative;
+    z-index: 2; /* Asegura que el texto (título y descripción) esté por encima de la capa de opacidad */
+}
+
+/* Título con color primario */
+h2.text-primary-color {
+    color: var(--primary-color);
+}
+
+h3 {
+    color: var(--secondary-color);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .service-card {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .service-card button {
+        width: 100%;
+    }
+}
         
         .testimonials-auto-scroll {
             animation: scroll-left 30s linear infinite;
@@ -126,49 +200,73 @@
         }
         
         .filter-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            overflow-x: auto;
-            padding-bottom: 1rem;
-            -webkit-overflow-scrolling: touch;
-        }
+    display: flex;
+    flex-wrap: wrap; /* Permite que los botones se ajusten automáticamente */
+    justify-content: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    gap: 0.75rem; /* Espacio entre los botones */
+}
 
-        .filter-btn {
-            background-color: #f3f4f6;
-            color: #4b5563;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            transition: all 0.3s ease;
-            margin: 0 0.25rem;
-            white-space: nowrap;
-        }
+.filter-btn {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 120px; /* Ancho mínimo de cada botón para mejor apariencia */
+    text-align: center; /* Centra el texto en los botones */
+}
 
-        .filter-btn:hover, .filter-btn:focus {
-            background-color: #e5e7eb;
-            color: #1f2937;
-        }
+.filter-btn:hover,
+.filter-btn:focus {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
 
-        .filter-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+@media (max-width: 768px) {
+    .filter-btn {
+        min-width: 100px; /* Ajuste en pantallas más pequeñas */
+    }
+}
 
-        .gallery-item {
-            animation: fadeIn 0.5s ease-out;
-        }
+@media (max-width: 480px) {
+    .filter-btn {
+        min-width: 80px; /* Aún más ajustado en pantallas muy pequeñas */
+    }
+}
+.gallery-item {
+    animation: fadeIn 0.5s ease-out;
+    transition: transform 0.3s ease; /* Agregar transición para el hover */
+}
 
-        @media (max-width: 640px) {
-            .filter-container {
-                justify-content: flex-start;
-            }
-        }
+.gallery-item:hover {
+    transform: scale(1.05); /* Sutil zoom en hover */
+}
+
+.gallery-item img {
+    border-radius: 12px; /* Esquinas más redondeadas */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+}
+
+@media (max-width: 640px) {
+    .filter-container {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 1024px) {
+    .gallery-item {
+        flex: 1 0 calc(33.33% - 1.5rem); /* Mejorar en pantallas medianas */
+    }
+}
 
         /* Estilos para el preloader */
         .preloader {
@@ -406,83 +504,80 @@
         </section>
 
         <!-- About Section -->
-        <section id="about" class="py-16 bg-gray-100">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold mb-8 text-center text-primary-color" data-aos="fade-up">About Us</h2>
-                <div class="flex flex-col items-center">
-                    <div class="w-full max-w-3xl mb-8" data-aos="fade-up" data-aos-delay="200">
-                        <p class="text-lg mb-4 text-center">Nathan Paint Correction is your trusted destination for high-quality automotive care in Watford, Ontario. With over a decade of experience, we take pride in offering detailing services that go beyond expectations.</p>
-                        <p class="text-lg mb-4 text-center">Our team of highly trained professionals uses advanced techniques and top-quality products to ensure your vehicle receives the best care possible.</p>
+<section id="about" class="py-16 bg-gray-100">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8 text-center text-primary-color" data-aos="fade-up">About Us</h2>
+        <div class="flex flex-col items-center">
+            <div class="w-full max-w-3xl mb-8" data-aos="fade-up" data-aos-delay="200">
+                <p class="text-lg mb-4 text-center">Nathan Paint Correction is your trusted destination for high-quality automotive care in Watford, Ontario. With over a decade of experience, we take pride in offering detailing services that go beyond expectations.</p>
+                <p class="text-lg mb-4 text-center">Our team of highly trained professionals uses advanced techniques and top-quality products to ensure your vehicle receives the best care possible.</p>
+            </div>
+            <div class="w-full max-w-6xl flex justify-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="relative w-full max-w-5xl aspect-[16/9]">
+                    <!-- Main image (left) -->
+                    <div class="absolute left-0 top-0 w-[58%] h-full">
+                        <img 
+                            src="img/about.png"
+                            alt="Professional detailer polishing a car" 
+                            class="w-full h-full object-cover rounded-lg"
+                        />
                     </div>
-                    <div class="w-full max-w-4xl" data-aos="fade-up" data-aos-delay="400">
-                        <div class="swiper about-swiper">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <img src="img/about1.jpg" alt="Our team" class="w-full h-64 object-cover rounded-lg shadow-lg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/about2.jpg" alt="Our workshop" class="w-full h-64 object-cover rounded-lg shadow-lg">
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="img/about3.jpg" alt="Our work" class="w-full h-64 object-cover rounded-lg shadow-lg">
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Overlapping image (right) -->
+                    <div class="absolute right-0 bottom-0 w-[50%] h-[85%]">
+                        <img 
+                            src="img/about1.png"
+                            alt="Luxury car leather interior detail" 
+                            class="w-full h-full object-cover rounded-lg"
+                        />
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <!-- Services Section with Horizontal Scroll -->
-        <section id="services" class="py-16 bg-white">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold mb-8 text-center text-primary-color" data-aos="fade-up">Our Services</h2>
-                <div class="services-scroll">
-                    <div class="flex space-x-6 pb-4">
-                        <!-- Service Cards -->
-                        <div class="flex-none w-80 bg-gray-100 rounded-lg p-6 shadow-md">
-                            <img src="img/service1.jpg" alt="Premium Wash & Wax" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2">Premium Wash & Wax</h3>
-                            <p class="mb-4">Complete wash and wax service that leaves your vehicle shining.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-lg font-bold text-primary-color">From $49.99</span>
-                                <button class="view-service gradient-bg text-white px-4 py-2 rounded-full hover:opacity-90 transition" data-service="wash">View Details</button>
-                            </div>
-                        </div>
-                        
-                        <div class="flex-none w-80 bg-gray-100 rounded-lg p-6 shadow-md">
-                            <img src="img/service2.jpg" alt="Interior Detailing" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2">Interior Detailing</h3>
-                            <p class="mb-4">Deep cleaning and restoration of your vehicle's interior.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-lg font-bold text-primary-color">From $89.99</span>
-                                <button class="view-service gradient-bg text-white px-4 py-2 rounded-full hover:opacity-90 transition" data-service="interior">View Details</button>
-                            </div>
-                        </div>
-                        
-                        <div class="flex-none w-80 bg-gray-100 rounded-lg p-6 shadow-md">
-                            <img src="img/service3.jpg" alt="Paint Correction" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2">Paint Correction</h3>
-                            <p class="mb-4">Removal of scratches and restoration of original shine.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-lg font-bold text-primary-color">From $199.99</span>
-                                <button class="view-service gradient-bg text-white px-4 py-2 rounded-full hover:opacity-90 transition" data-service="paint">View Details</button>
-                            </div>
-                        </div>
-                        
-                        <div class="flex-none w-80 bg-gray-100 rounded-lg p-6 shadow-md">
-                            <img src="img/service4.jpg" alt="Ceramic Coating" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2">Ceramic Coating</h3>
-                            <p class="mb-4">Long-lasting ceramic coating for ultimate paint protection.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-lg font-bold text-primary-color">From $299.99</span>
-                                <button class="view-service gradient-bg text-white px-4 py-2 rounded-full hover:opacity-90 transition" data-service="ceramic">View Details</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Services Section with Full-Width Cards -->
+<section id="services" class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-8 text-center text-primary-color" data-aos="fade-up">Our Services</h2>
+        
+        <!-- Service 1: Premium Wash & Wax -->
+        <div class="service-card bg-cover bg-center text-white py-24 px-8 mb-6 rounded-lg shadow-lg" style="background-image: url('img/service1.jpg');" data-aos="fade-right">
+            <h3 class="text-3xl font-bold mb-2">Premium Wash & Wax</h3>
+            <p class="mb-4">Complete wash and wax service that leaves your vehicle shining.</p>
+            <button class="modal-trigger view-service gradient-bg text-white px-4 py-2 rounded-full hover:opacity-90 transition" data-service="wash">
+                View Details
+            </button>
+        </div>
+        
+        <!-- Service 2: Interior Detailing -->
+        <div class="service-card bg-cover bg-center text-white py-24 px-8 mb-6 rounded-lg shadow-lg" style="background-image: url('img/service2.jpg');" data-aos="fade-left">
+            <h3 class="text-3xl font-bold mb-2">Interior Detailing</h3>
+            <p class="mb-4">Deep cleaning and restoration of your vehicle's interior.</p>
+            <button class="modal-trigger view-service gradient-bg text-white px-4 py-2 rounded-full hover:opacity-90 transition" data-service="interior">
+                View Details
+            </button>
+        </div>
+        
+        <!-- Service 3: Paint Correction -->
+        <div class="service-card bg-cover bg-center text-white py-24 px-8 mb-6 rounded-lg shadow-lg" style="background-image: url('img/service3.jpg');" data-aos="fade-right">
+            <h3 class="text-3xl font-bold mb-2">Paint Correction</h3>
+            <p class="mb-4">Removal of scratches and restoration of original shine.</p>
+            <button class="modal-trigger view-service gradient-bg text-white px-4 py-2 rounded-full hover:opacity-90 transition" data-service="paint">
+                View Details
+            </button>
+        </div>
+        
+        <!-- Service 4: Ceramic Coating -->
+        <div class="service-card bg-cover bg-center text-white py-24 px-8 mb-6 rounded-lg shadow-lg" style="background-image: url('img/service4.jpg');" data-aos="fade-left">
+            <h3 class="text-3xl font-bold mb-2">Ceramic Coating</h3>
+            <p class="mb-4">Long-lasting ceramic coating for ultimate paint protection.</p>
+            <button class="modal-trigger view-service gradient-bg text-white px-4 py-2 rounded-full hover:opacity-90 transition" data-service="ceramic">
+                View Details
+            </button>
+        </div>
+    </div>
+</section>
 
         <!-- Gallery Section with Enhanced Details -->
         <section id="gallery" class="py-16 bg-gray-100">
@@ -557,6 +652,20 @@
                 </div>
             </div>
         </section>
+        
+        <!-- Banner Publicitario -->
+<section class="ad-banner">
+    <div class="container mx-auto px-4">
+        <div class="ad-banner-content">
+            <img src="img/oferta.png" alt="Ceramic coating being applied to a car" class="ad-banner-image">
+            <div class="ad-banner-text">
+                <h2 class="text-3xl font-bold mb-4">Limited Time Offer!</h2>
+                <p class="mb-4">Get 15% off on our Ceramic Coating package. Protect your car's paint for years to come!</p>
+                <a href="#contact" class="gradient-bg text-white px-6 py-2 rounded-full hover:opacity-90 transition">Book Now</a>
+            </div>
+        </div>
+    </div>
+</section>
 
         <!-- Instagram Reels Section with Fixed Scroll -->
         <section id="instagram-reels" class="py-16 bg-white">
@@ -651,20 +760,6 @@
                             </div>
                         </div>
                         <!-- Repeat testimonials for continuous scroll effect -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Banner Publicitario -->
-        <section class="ad-banner">
-            <div class="container mx-auto px-4">
-                <div class="ad-banner-content">
-                    <img src="img/ad-banner.jpg" alt="Special Offer" class="ad-banner-image">
-                    <div class="ad-banner-text">
-                        <h2 class="text-3xl font-bold mb-4">Limited Time Offer!</h2>
-                        <p class="mb-4">Get 15% off on our Ceramic Coating package. Protect your car's paint for years to come!</p>
-                        <a href="#contact" class="gradient-bg text-white px-6 py-2 rounded-full hover:opacity-90 transition">Book Now</a>
                     </div>
                 </div>
             </div>
